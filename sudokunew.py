@@ -1,36 +1,51 @@
 
+from math import sqrt
 
-def is_valid(row, col, value):  # check if present
-    for i in range(16):
-        if board[i][col] == value:
+
+def is_valid(board,row, col, val):
+    for i in range(length):
+        if board[row][i] == val:
             return False
-    for i in range(16):
-        if board[row][i] == value:
+    for i in range(length):
+        if board[i][col] == val:
             return False
-    x = row - row % 4
-    y = col - col % 4
-    for i in range(4):
-        for j in range(4):
-            if board[i+x][y+j] == value:
+    x = row - row%sub_matrix_length
+    y = col - col%sub_matrix_length
+    for i in range(sub_matrix_length):
+        for j in range(sub_matrix_length):
+            if board[i+x][y+j] == val:
                 return False
     return True
 
 
-def put_values(row, col):  # put_value()
-    if row == 16:
+def solver(row, col):
+    if row == length:
         return True
-    if col >= 16:
-        return put_values(row+1, 0)
-    if board[row][col] != '.':
-        return put_values(row, col+1)
-    for i in range(1, 15):
-        if is_valid(row, col, str(i)):
-            board[row][col] = str(i)
-            if put_values(row, col+1):
-                return True
-            board[row][col] = '.'
+    elif col >= length:     # col == 16
+        return solver(row + 1, 0)
+    elif board[row][col] != '.':
+        return solver(row, col + 1)
+    else:
+
+        for i in range(1,17):
+            if is_valid(board,row, col, str(i)):
+                board[row][col] = str(i)
+                if solver(row, col + 1) == True:
+                    return True
+    board[row][col]='.'
     return False
 
+board1 = [
+        ["5", "3", ".", ".", "7", ".", ".", ".", "."],
+        ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+        [".", "9", "8", ".", ".", ".", ".", "6", "."],
+        ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
+        ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
+        ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+        [".", "6", ".", ".", ".", ".", "2", "8", "."],
+        [".", ".", ".", "4", "1", "9", ".", ".", "5"],
+        [".", ".", ".", ".", "8", ".", ".", "7", "9"]
+]
 
 board = [[".","9",".",".","2",".","3","8","A",".",".",".",".",".",".","."],
     [".","1",".","6",".",".","D",".",".",".","8",".","F",".","B","5"],
@@ -49,7 +64,9 @@ board = [[".","9",".",".","2",".","3","8","A",".",".",".",".",".",".","."],
     [".","F","8","4",".",".","A",".",".",".","5",".","6",".",".","9"],
     [".",".",".",".",".","2",".","1","8",".",".","B",".",".",".","D"]]
 
-put_values(0, 0)
+length = len(board)
+sub_matrix_length = int(sqrt(length))
 
+solver(0, 0)
 for a in board:
     print(a)
