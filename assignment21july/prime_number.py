@@ -6,7 +6,7 @@ from math import sqrt
 number = int(input())
 if number > 1:
     result = True
-    for i in range(2, int(sqrt(number)) + 1):
+    for i in range(2, int(sqrt(number)) + 1): #  efficient way
         if number % i == 0:
             result = False
             break
