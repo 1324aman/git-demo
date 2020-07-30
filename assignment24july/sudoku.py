@@ -8,7 +8,7 @@
 from math import sqrt
 
 
-def is_valid(board, row, col, val):
+def is_valid(board, row, col, val): #  check valid
     for i in range(length):
         if board[row][i] == val:
             return False
