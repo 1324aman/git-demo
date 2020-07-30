@@ -32,7 +32,6 @@ def solver(row, col):
     elif board[row][col] != '.':
         return solver(row, col + 1)
     else:
-
         for i in range(1, 17):
             if is_valid(board, row, col, str(i)):
                 board[row][col] = str(i)
